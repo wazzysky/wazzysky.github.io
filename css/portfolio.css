@@ -86,6 +86,39 @@
   color: rgba(249, 244, 234, 0.72);
 }
 
+.hero-stack {
+  position: relative;
+  z-index: 1;
+  margin-top: 28px;
+}
+
+.hero-stack-title {
+  margin-bottom: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #f6c58f;
+}
+
+.hero-stack-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-stack-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  backdrop-filter: blur(8px);
+}
+
 .project-index {
   padding-bottom: 84px;
 }

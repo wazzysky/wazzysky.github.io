@@ -21,6 +21,15 @@ custom_css: /css/portfolio.css
                     </div>
                     {% endfor %}
                 </div>
+
+                <div class="hero-stack">
+                    <div class="hero-stack-title">当前使用的技术栈</div>
+                    <div class="hero-stack-list">
+                        {% for item in site.data.projects.intro.tech_stack %}
+                        <span class="hero-stack-chip">{{ item }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </section>
