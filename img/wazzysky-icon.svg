@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="WazzySky icon">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#112031"/>
+      <stop offset="55%" stop-color="#1f6f78"/>
+      <stop offset="100%" stop-color="#f0a04b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f7d2a5"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="12" y="12" width="232" height="232" rx="56" fill="url(#bg)"/>
+  <circle cx="196" cy="60" r="22" fill="rgba(255,255,255,0.2)"/>
+  <path d="M52 164 L78 92 L105 160 L128 108 L151 160 L178 92 L204 164"
+        fill="none"
+        stroke="url(#accent)"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="20"/>
+  <path d="M82 188 C108 208 147 208 174 186"
+        fill="none"
+        stroke="#ffffff"
+        stroke-linecap="round"
+        stroke-width="12"
+        opacity="0.9"/>
+</svg>

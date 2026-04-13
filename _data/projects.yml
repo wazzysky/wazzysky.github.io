@@ -1,141 +1,341 @@
-hero:
-  eyebrow: Project Portfolio
-  title: 机器人、嵌入式系统与三维感知项目集
-  summary: 聚焦 RoboCup 小型组、边缘视觉链路、实时通信系统与三维点云感知的工程实践，展示从底层驱动到算法复现的完整项目经历。
-  metrics:
-    - value: "5"
-      label: 已整理项目
-    - value: "3"
-      label: 核心技术方向
-    - value: "C++ / RTOS / OpenCV"
-      label: 主力工程栈
+intro:
+  eyebrow: "Project Pages"
+  title: "WazzySky 的项目 List"
+  summary: "首页只保留项目入口，具体内容拆分到独立页面；每个项目页都可以横向切换到其他项目。"
+  stats:
+    - value: "06"
+      label: 独立项目页
+    - value: "Robotics / AI / Systems"
+      label: 核心方向
+    - value: "Images + Video"
+      label: 已接入素材
 
-sections:
-  - id: robotics
-    kicker: Robotics
-    title: 机器人与嵌入式系统
-    intro: 围绕 RoboCup SSL、树莓派视觉链路、ESP32 实时通信与运动控制展开，强调时延控制、任务调度和系统稳定性。
-    projects:
-      - title: Robocup SSL 局部视觉重构
-        type: 比赛项目
-        summary: 针对小型组足球机器人的高动态运动场景，将局部视觉从 Python 脚本重构为 C++ 实现，重点解决非确定性延迟和双目采集同步问题。
-        role: 独立负责局部视觉重构，完成树莓派摄像头底层驱动接入、图像处理管线搭建与小球坐标返还。
-        goal: 在树莓派平台上稳定获得高帧率、低延迟的局部视觉结果，为机器人控制提供可靠输入。
-        tech:
-          - C++
-          - OpenCV
-          - libcamera
-          - Raspberry Pi
-          - Multi-threading
-        highlights:
-          - 构建图像接收与图像处理的双线程模型，削减脚本式处理引入的抖动。
-          - 直接调用树莓派优化后的 libcamera 原生库，绕开高层封装带来的额外损耗。
-          - 通过降分辨率、RGB 到 HSV 转换、最大轮廓提取和最小外接圆拟合完成亮橙色足球定位。
-        challenges:
-          - 梳理 libcamera 复杂接口，并基于 Viewfinder 预览流实现双目主从拍摄架构。
-          - 对 Sync、Cvt、Det、Wait 等阶段逐项打印耗时，定位链路瓶颈而非只看最终 FPS。
-        outcomes:
-          - 双目系统在 1536×864 分辨率下达到约 120 FPS，在 2304×1296 下达到约 56 FPS，在 4608×2592 下仍可运行在约 16 FPS。
-          - 明确拆分采集、复制、识别、等待各阶段延迟，为后续系统优化提供量化依据。
-        repo: https://github.com/wazzysky/localvision
+projects:
+  - slug: point-cloud-benchmark
+    url: /projects/point-cloud-benchmark/
+    type: 科研项目
+    title: 三维点云语义分割算法复现与性能标定
+    tagline: 复现 CENet 与 Pointcept，并对精度、时延与硬件瓶颈进行量化对比。
+    brief: 聚焦无人机零样本自主导航中的感知前端，完成 3D 点云语义分割算法的复现与性能边界分析。
+    cover: /img/cenetbg.png
+    role: 负责两种算法的全流程复现、跨场景性能测试及推理时延分析。
+    goal: 为室内复杂环境感知建立一套可复现实验链路，并明确不同方法的工程可用边界。
+    stack:
+      - Python
+      - PyTorch
+      - CENet
+      - Pointcept
+      - SemanticKITTI
+      - S3DIS
+    metrics:
+      - label: CENet 本地 mIoU
+        value: 49.7%
+      - label: Pointcept 本地 mIoU
+        value: 39.2%
+      - label: CENet 推理时延
+        value: "~68 ms"
+    sections:
+      - title: 复现范围
+        paragraphs:
+          - 面向无人机零样本自主导航的室内复杂环境感知，重点复现并评估两类代表性语义分割方案。
+        bullets:
+          - CENet 通过球面投影将无序点云转成 2D 全景图，利用大核卷积兼顾结构表达与推理效率。
+          - Pointcept PTv3 使用序列化注意力机制，规避昂贵近邻搜索，提升复杂三维几何建模能力。
+      - title: 性能对比与误差来源
+        bullets:
+          - 本地显卡为 RTX 4060，与论文中的高算力训练环境存在显著差距，导致单帧推理时间增加。
+          - 显存限制使 Batch Size 从 24 压缩到 1，训练过程中的梯度噪声更大。
+          - 训练轮数和训练区域均受限，模型未进入充分收敛阶段，造成 mIoU 和 allAcc 下滑。
+        table:
+          headers:
+            - 模型
+            - 测试数据集
+            - 官方指标
+            - 本地实测
+            - 推理时延
+          rows:
+            - - CENet
+              - SemanticKITTI
+              - "mIoU 64.7% / 37.8 FPS"
+              - "Acc 82.0% / mIoU 49.7%"
+              - "~68 ms / 15 FPS"
+            - - Pointcept PTv3
+              - S3DIS Area_5
+              - "mIoU 70%+ / 22 FPS"
+              - "allAcc 71.9% / mIoU 39.2%"
+              - "~500 ms / 2 FPS"
+        media:
+          - type: image
+            src: /img/cenetbg.png
+            alt: CENet 结果可视化
+            caption: CENet 的语义分割可视化结果。
+          - type: image
+            src: /img/cenettest.png
+            alt: CENet 测试过程
+            caption: CENet 的本地测试流程截图。
+          - type: image
+            src: /img/ptrain.png
+            alt: Pointcept 训练过程
+            caption: Pointcept 的训练与日志结果。
+          - type: image
+            src: /img/peva.png
+            alt: Pointcept 评估结果
+            caption: Pointcept 的验证与评估截图。
 
-      - title: Robocup SSL 系统架构重构
-        type: 比赛项目
-        summary: 将机器人控制核心从树莓派迁移到 ESP32C5，重建联网、UDP 通信链路、实时任务调度以及与 STM32 的 SPI 协同。
-        role: 独立负责 ESP32C5 端的软件架构设计与实现，包括网络通信、状态回传和底层互联。
-        goal: 用更轻量的 MCU 承担控制核心，释放树莓派冗余性能并降低系统复杂度。
-        tech:
-          - ESP32C5
-          - FreeRTOS
-          - UDP
-          - Protobuf
-          - SPI
-        highlights:
-          - 在 FreeRTOS 上建立 100 Hz 底盘控制、UDP 高频接收、50 Hz 状态回传三个独立任务。
-          - 设计树莓派、ESP32、STM32 的分层协作链路，使控制与通信解耦。
-          - 将复杂的轮系解算公式前移为编译期常量，降低运行时 CPU 消耗。
-        challenges:
-          - 控制软件检测信息时断时续，最终定位为串口打印过多导致低优先级任务饥饿。
-          - 通过降低日志频率和调整任务行为，恢复上位机通信稳定性。
-        outcomes:
-          - 完成 ESP32 到上位机的 UDP 收发闭环，能够稳定接收并验证控制软件发来的数据。
-          - 搭建出适合后续机器人控制演进的轻量实时任务框架。
-        repo: https://github.com/wazzysky/sample_project
+  - slug: point-cloud-instance-lock
+    url: /projects/point-cloud-instance-lock/
+    type: 科研项目
+    title: 感知系统的鲁棒性优化：从语义分割到实例锁定
+    tagline: 基于 DBSCAN 思路对点云簇进行边界分离，减少误检带来的虚假避障。
+    brief: 处理 Unity 仿真环境中 RGB-D 与雷达融合点云的重叠问题，增强语义感知结果的稳定性。
+    cover: /img/dbscan.jpg
+    role: 负责 3D 点云下采样与实例边界分离算法实现。
+    goal: 从语义标签结果进一步锁定物理实体主体，提升下游导航规划的稳定性。
+    stack:
+      - PCL
+      - DBSCAN
+      - EuclideanClusterExtraction
+      - KdTree
+    metrics:
+      - label: 方法核心
+        value: DBSCAN 风格聚类
+      - label: 目标
+        value: 抑制虚假障碍
+      - label: 场景
+        value: Unity 仿真点云
+    sections:
+      - title: 问题定义
+        paragraphs:
+          - 无人机在 Unity 场景中获取的点云簇存在重叠交集，椅子与凳子等近邻目标在特定视角下容易混合，影响导航器判断。
+        bullets:
+          - 采样点云边缘存在离散杂点，深度图对齐误差会进一步放大误报。
+          - 单纯依赖语义标签无法稳定锁定真实物理实体主体。
+      - title: 解决思路
+        bullets:
+          - 参考 PCL 中欧式聚类提取的思路，实现 DBSCAN 风格的聚类分离。
+          - 通过 `_dbscan_eps` 与 `_dbscan_min_pts` 控制聚类半径和最小成类点数，将空间不连续的误报剔除。
+          - 在每个语义标签下遍历聚类结果，选择点数最多的簇作为实体主体。
+          - 结果直接服务于下游规划器，减少频繁触发的虚假避障。
+        media:
+          - type: image
+            src: /img/dbscan.jpg
+            alt: DBSCAN 流程图
+            caption: 基于点云簇边界分离的实例锁定流程。
 
-      - title: 树莓派智能垃圾桶系统实践
-        type: 课程项目
-        summary: 为运动控制课程完成一套基于树莓派与 STM32 的智能垃圾桶，集成视觉识别、目标追踪、底盘控制与电机驱动。
-        role: 独立负责硬件选型、搭建、焊接、视觉算法集成以及 YOLO 识别部署。
-        goal: 让系统具备垃圾识别、目标追踪与自主移动能力，完成从感知到执行的闭环控制。
-        tech:
-          - Raspberry Pi
-          - STM32
-          - OpenCV
-          - YOLO
-          - ONNX
-        highlights:
-          - 树莓派侧复用局部视觉项目思路，使用 libcamera 采集线程加 OpenCV 或 YOLO 处理线程获取目标坐标。
-          - 结合 PID 跟踪解算麦轮速度，并将轮速信息下发给 STM32。
-          - 自主采集视频并在 Roboflow 上构建 367 张图像的数据集，完成标注、预处理、训练和 ONNX 导出。
-        challenges:
-          - 同时兼顾传统颜色识别与深度学习识别两条链路，在树莓派算力受限条件下平衡精度与实时性。
-          - 完成树莓派顶层算法与 STM32 底层 PWM 驱动之间的稳定联调。
-        outcomes:
-          - 形成完整可运行的智能垃圾桶系统，能够完成垃圾识别与追踪任务。
-          - 积累了从机械搭建、电路焊接到视觉部署的一体化项目经验。
-        repo: https://github.com/wazzysky/motion_control
+  - slug: llm-navigation-survey
+    url: /projects/llm-navigation-survey/
+    type: 科研项目
+    title: 前沿调研：具身智能语义导航与 LLM 交互机制
+    tagline: 梳理零样本导航中“语义感知结果如何进入高层语言决策”的六类典型路径。
+    brief: 围绕 LLM 与 3D 场景理解的结合方式进行系统性调研，并沉淀为结构化对比表与思维导图。
+    cover: /img/LLM.png
+    role: 独立负责近五年前沿文献调研与交互框架梳理。
+    goal: 为后续“感知结果 + 高层语义决策”的系统设计提供可复用的技术图谱。
+    stack:
+      - LLM
+      - Zero-shot Navigation
+      - CLIP
+      - Scene Graph
+      - Survey
+    metrics:
+      - label: 调研论文
+        value: "6 篇"
+      - label: 核心方向
+        value: 语义导航
+      - label: 输出形式
+        value: 对比表 + 思维导图
+    resources:
+      - label: LLM 导航调研 PDF
+        url: /img/LLMs.pdf
+    sections:
+      - title: 调研目标
+        paragraphs:
+          - 目标是理解 3D 点云语义分割的结果如何与大语言模型的高层推理能力结合，从而实现零样本目标导航。
+      - title: 典型框架归纳
+        table:
+          headers:
+            - 论文
+            - 核心技术
+            - LLM 交互机制
+          rows:
+            - - VoroNav
+              - 基于 Voronoi 图的拓扑导航
+              - LLM 充当语义奖赏器决定探索方向
+            - - SG-Nav
+              - 在线构建 3D 场景图
+              - 将房间与物体层级转成文本进行协同决策
+            - - ZSON
+              - 基于 CLIP 的跨模态特征对齐
+              - 将文本指令直接映射到视觉导航目标
+            - - ApexNav
+              - 目标中心语义融合
+              - 用 LLM 进行自适应探索并抑制感知虚假检测
+            - - Cat-shaped Mug
+              - LLM 引导的零样本探索
+              - 将视觉观测转成自然语言 Prompt 进行常识推理
+            - - Bridging Zero-shot
+              - 像素引导的导航技能
+              - 对齐底层控制指令与高层语义目标
+        media:
+          - type: image
+            src: /img/LLM.png
+            alt: LLM 导航思维导图
+            caption: 调研过程中整理出的具身智能导航框架图。
 
-  - id: research
-    kicker: Research
-    title: 三维感知与导航调研
-    intro: 关注 3D 点云语义分割、零样本导航以及大语言模型与具身智能的交互机制，侧重算法复现、性能分析和系统调研。
-    projects:
-      - title: 三维点云语义切割算法复现
-        type: 科研项目
-        summary: 面向无人机零样本自主导航的室内复杂环境感知，复现并评估 CENet 与 Pointcept 两类 3D 点云语义分割方案。
-        role: 负责两种算法的全流程复现、跨场景性能测试、推理时延分析，以及 DBSCAN 下采样与实体分离处理。
-        goal: 搭建可复现实验环境，比较不同方法在精度、速度和场景迁移上的表现。
-        tech:
-          - Python
-          - PyTorch
-          - CENet
-          - Pointcept
-          - DBSCAN
-        highlights:
-          - 复现 CENet 的球面投影与大核卷积思路，以及 Pointcept 的序列化注意力机制。
-          - 使用 DBSCAN、KdTree 与密度可达距离参数调整，将相距较近的物理实体点云进行拆分。
-          - 完成数据集、环境与训练配置的迁移适配，并对可视化与测试结果做整理分析。
-        challenges:
-          - 受限于显存与存储条件，Batch Size 从 24 降至 1，训练与推理能力明显下降。
-          - 官方代码对室内数据集接口支持有限，导致跨场景验证需要更多手动适配。
-        outcomes:
-          - CENet 在本地测试中达到 Acc 82.0%、mIoU 49.7%、15 FPS，对比论文官方指标 mIoU 64.7%、37.88 FPS。
-          - Pointcept PTv3 在本地测试中达到 allAcc 71.9%、mIoU 39.2%、2 FPS，对比官方指标 mIoU 70%+、22 FPS。
-          - 完成一次较完整的论文复现、性能对比与误差分析训练。
+  - slug: ssl-local-vision
+    url: /projects/ssl-local-vision/
+    type: 比赛项目
+    title: RoboCup SSL 局部视觉性能重构
+    tagline: 从 Python 迁移到 C++ 双线程链路，压缩树莓派端非确定性延迟。
+    brief: 面向高动态足球机器人，重构局部视觉采集与检测流程，重点解决双目同步和实时性问题。
+    cover: /img/mul.png
+    role: 独立负责从 Python 到 C++ 的全链路重构，以及底层 libcamera 驱动接入。
+    goal: 让树莓派局部视觉在不同分辨率下稳定运行于高帧率状态，并为下游控制提供低时延坐标。
+    stack:
+      - C++
+      - OpenCV
+      - libcamera
+      - Multi-threading
+      - Raspberry Pi
+    metrics:
+      - label: 1536×864
+        value: 120 FPS
+      - label: 2304×1296
+        value: 56 FPS
+      - label: 4608×2592
+        value: 16 FPS
+    resources:
+      - label: GitHub 仓库
+        url: https://github.com/wazzysky/localvision
+    sections:
+      - title: 架构改造
+        bullets:
+          - 利用 C++ 构建图像接收与图像处理双线程模型，规避 Python GIL 带来的并行瓶颈。
+          - 直接操作 libcamera 原始 Buffer，以主从同步模式完成双目图像采集。
+          - 通过降采样、HSV 双阈值滤波、形态学去噪与最小外接圆拟合完成亮橙色足球定位。
+          - 对左右相机坐标做融合，并通过标定得到世界坐标结果。
+      - title: 性能观察
+        paragraphs:
+          - 通过打印 Wait、Cvt、Det 等链路时间，可以看到 60 FPS 运行时等待时间仍较长，说明链路仍有进一步提升空间。
+        table:
+          headers:
+            - 分辨率
+            - 帧率
+          rows:
+            - - 1536×864
+              - 120 FPS
+            - - 2304×1296
+              - 56 FPS
+            - - 4608×2592
+              - 16 FPS
+        media:
+          - type: image
+            src: /img/rizhi.png
+            alt: 局部视觉日志
+            caption: 线程各环节耗时日志，用于定位链路瓶颈。
+          - type: image
+            src: /img/mul.png
+            alt: 双目局部视觉示意
+            caption: 双目视觉链路与目标检测结果示意。
 
-      - title: 自主导航与 LLM 交互机制调研
-        type: 科研项目
-        summary: 调研如何将 3D 点云语义切割结果与大语言模型的高层推理能力结合，实现零样本目标导航。
-        role: 独立负责近五年前沿文献梳理，归纳交互框架、语义建图方式和高层决策机制。
-        goal: 为后续将感知结果与高层规划对接提供结构化方法论参考。
-        tech:
-          - LLM
-          - Zero-shot Navigation
-          - 3D Scene Graph
-          - CLIP
-          - Survey
-        highlights:
-          - 系统梳理 VoroNav、SG-Nav、ZSON、ApexNav、Cat-shaped Mug、Bridging Zero-shot 六类典型方案。
-          - 对比拓扑导航、场景图、跨模态对齐、语义融合和语言推理五类核心技术路径。
-          - 产出结构化思维导图与论文对照表，便于后续选型和方案组合。
-        outcomes:
-          - 建立了从底层视觉感知到高层语言决策的技术图谱。
-          - 为零样本导航方向的后续项目设计提供了比较清晰的系统框架参考。
+  - slug: distributed-control-architecture
+    url: /projects/distributed-control-architecture/
+    type: 比赛项目
+    title: 分布式异构系统架构与通信协议设计
+    tagline: 将控制核心迁移到 ESP32C5，在 WiFi-UDP 与 SPI DMA 之间维持硬实时闭环。
+    brief: 围绕 RoboCup 系统升级，重新设计主控分层、通信协议与实时任务调度策略。
+    cover: /img/espm.png
+    role: 负责跨平台通信协议设计、UDP 链路实现与 ESP32 端实时任务调度。
+    goal: 用更轻量的实时 MCU 接管控制核心，降低非实时 Linux 平台带来的控制抖动。
+    stack:
+      - ESP32C5
+      - FreeRTOS
+      - UDP
+      - Nanopb
+      - SPI DMA
+    metrics:
+      - label: 核心控制频率
+        value: 100 Hz
+      - label: 状态回传
+        value: 50 Hz
+      - label: SPI 链路
+        value: 10 MHz DMA
+    resources:
+      - label: GitHub 仓库
+        url: https://github.com/wazzysky/sample_project
+    sections:
+      - title: 系统设计
+        paragraphs:
+          - 项目将机器人控制核心从树莓派迁移到 ESP32C5，并保留树莓派、STM32 作为分层协作节点。
+        bullets:
+          - 在 FreeRTOS 上拆分 UDP 接收、状态回传、底盘控制三个任务，确保网络抖动不会打断控制闭环。
+          - 使用 `vTaskDelayUntil` 保持 100 Hz 绝对时序，降低里程计积分误差。
+          - 通过 Nanopb 编解码二进制指令，减少文本协议带来的带宽与 CPU 开销。
+      - title: 算力与稳定性优化
+        bullets:
+          - 对四轮非对称底盘的运动学系数做预计算，将循环内运算简化为乘加运算。
+          - 串口调试信息过多会导致低优先级任务饥饿，降低打印频率后通信恢复稳定。
+        media:
+          - type: image
+            src: /img/espm.png
+            alt: 系统架构图
+            caption: 分布式异构控制系统的总体拓扑结构。
+          - type: image
+            src: /img/esp.jpg
+            alt: ESP32 实测
+            caption: ESP32 端运行与联调截图。
 
-focus:
-  - title: 实时系统实现
-    description: 关注高频视觉、实时任务调度、链路分层和端侧部署，优先解决时延、同步与资源占用问题。
-  - title: 感知算法落地
-    description: 从传统视觉到 3D 点云语义分割，偏重算法复现、工程化改造与性能量化分析。
-  - title: 系统级问题拆解
-    description: 习惯把复杂问题拆成驱动、通信、调度、算法四层，逐段打印与验证，减少盲调。
+  - slug: smart-trash-bin
+    url: /projects/smart-trash-bin/
+    type: 课程项目
+    title: “喂不饱的 AI 捕手”：树莓派智能垃圾桶系统实践
+    tagline: 结合 120 FPS 局部视觉与 YOLOv11 识别，完成从电路焊接到感知追踪的一体化实现。
+    brief: 基于树莓派 5 与 STM32F401 构建移动拦截机器人，集成目标识别、追踪与底盘控制。
+    cover: /img/正面.jpg
+    role: 独立负责硬件选型、搭建焊接、视觉算法集成与整机联调。
+    goal: 实现一个可移动、可识别、可追踪的智能垃圾桶系统，并完成完整 Demo 交付。
+    stack:
+      - Raspberry Pi 5
+      - STM32F401
+      - YOLOv11
+      - ONNX
+      - OpenCV
+      - PID
+    metrics:
+      - label: 数据集规模
+        value: 367 张图像
+      - label: 上位机视觉
+        value: 120 FPS
+      - label: 下位机 PWM
+        value: 20 kHz
+    resources:
+      - label: GitHub 仓库
+        url: https://github.com/wazzysky/motion_control
+    sections:
+      - title: 分布式架构
+        bullets:
+          - 树莓派 5 负责高频视觉流采集、状态机逻辑与麦轮运动学求解。
+          - STM32F401 通过 USB CDC 与上位机通信，并负责 4 路 PWM 输出与底层安全逻辑。
+          - 在洞洞板上完成手工走锡和高电流走线，保障整机电气可靠性。
+      - title: 感知链路
+        bullets:
+          - 复用了 RoboCup 局部视觉线程的核心逻辑，保证传统视觉链路的实时性。
+          - 自主采集视频帧并使用 Roboflow 进行标注、预处理和数据集划分。
+          - 训练后导出轻量化 ONNX 模型，部署到树莓派实现 YOLO 识别。
+        media:
+          - type: image
+            src: /img/正面.jpg
+            alt: 智能垃圾桶正面
+            caption: 智能垃圾桶整机正面实物图。
+          - type: image
+            src: /img/优化的硬件架构.png
+            alt: 硬件架构
+            caption: 上下位机分层协同的硬件架构图。
+          - type: image
+            src: /img/yolo图片1.png
+            alt: YOLO 数据集
+            caption: 自建数据集与训练样本截图。
+          - type: image
+            src: /img/yolo识别1.png
+            alt: YOLO 识别结果
+            caption: 部署在树莓派端的识别效果。

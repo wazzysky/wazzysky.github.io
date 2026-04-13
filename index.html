@@ -1,123 +1,51 @@
 ---
 layout: default
-title: 项目集
-description: "机器人、嵌入式系统与三维感知项目集"
+title: "WazzySky 的项目 List"
+description: "项目入口页"
 custom_css: /css/portfolio.css
 ---
 
-<main class="portfolio-page">
-    <section class="portfolio-hero" id="top">
+<main class="portfolio-home">
+    <section class="home-hero">
         <div class="portfolio-shell">
-            <div class="hero-copy">
-                <p class="hero-eyebrow">{{ site.data.projects.hero.eyebrow }}</p>
-                <h1>{{ site.data.projects.hero.title }}</h1>
-                <p class="hero-summary">{{ site.data.projects.hero.summary }}</p>
-                <div class="hero-actions">
-                    <a class="hero-button hero-button-primary" href="#projects">查看项目</a>
-                    <a class="hero-button" href="https://github.com/{{ site.github_username }}" target="_blank" rel="noreferrer">GitHub</a>
-                </div>
-            </div>
             <div class="hero-panel">
-                {% for metric in site.data.projects.hero.metrics %}
-                <div class="metric-card">
-                    <div class="metric-value">{{ metric.value }}</div>
-                    <div class="metric-label">{{ metric.label }}</div>
+                <p class="hero-eyebrow">{{ site.data.projects.intro.eyebrow }}</p>
+                <h1>{{ site.data.projects.intro.title }}</h1>
+                <p class="hero-summary">{{ site.data.projects.intro.summary }}</p>
+
+                <div class="hero-stats">
+                    {% for stat in site.data.projects.intro.stats %}
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">{{ stat.value }}</div>
+                        <div class="hero-stat-label">{{ stat.label }}</div>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
     </section>
 
-    <section class="portfolio-section" id="projects">
+    <section class="project-index" id="projects">
         <div class="portfolio-shell">
-            {% for section in site.data.projects.sections %}
-            <div class="section-heading">
-                <p class="section-kicker">{{ section.kicker }}</p>
-                <h2>{{ section.title }}</h2>
-                <p>{{ section.intro }}</p>
+            <div class="section-head">
+                <p class="section-kicker">Project Index</p>
+                <h2>点击卡片进入项目页</h2>
             </div>
 
-            <div class="project-grid">
-                {% for project in section.projects %}
-                <article class="project-card">
-                    <div class="project-card-top">
-                        <span class="project-type">{{ project.type }}</span>
-                        {% if project.repo %}
-                        <a class="project-repo" href="{{ project.repo }}" target="_blank" rel="noreferrer">Repo</a>
-                        {% endif %}
+            <div class="project-card-grid">
+                {% for project in site.data.projects.projects %}
+                <a class="index-card" href="{{ site.baseurl }}{{ project.url }}">
+                    <div class="index-card-media" style="background-image: linear-gradient(180deg, rgba(17, 32, 49, 0.12) 0%, rgba(17, 32, 49, 0.68) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
+                        <span class="index-card-no">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+                        <span class="index-card-type">{{ project.type }}</span>
                     </div>
 
-                    <h3>{{ project.title }}</h3>
-                    <p class="project-summary">{{ project.summary }}</p>
-
-                    <div class="project-meta">
-                        <div class="meta-item">
-                            <span>角色</span>
-                            <p>{{ project.role }}</p>
-                        </div>
-                        <div class="meta-item">
-                            <span>目标</span>
-                            <p>{{ project.goal }}</p>
-                        </div>
+                    <div class="index-card-body">
+                        <h3>{{ project.title }}</h3>
+                        <p>{{ project.tagline }}</p>
+                        <span class="index-card-action">进入项目页</span>
                     </div>
-
-                    <ul class="tech-list">
-                        {% for item in project.tech %}
-                        <li>{{ item }}</li>
-                        {% endfor %}
-                    </ul>
-
-                    <div class="project-block">
-                        <h4>核心工作</h4>
-                        <ul class="detail-list">
-                            {% for item in project.highlights %}
-                            <li>{{ item }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-
-                    {% if project.challenges %}
-                    <div class="project-block">
-                        <h4>难点与处理</h4>
-                        <ul class="detail-list">
-                            {% for item in project.challenges %}
-                            <li>{{ item }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-
-                    {% if project.outcomes %}
-                    <div class="project-block">
-                        <h4>结果</h4>
-                        <ul class="detail-list">
-                            {% for item in project.outcomes %}
-                            <li>{{ item }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    {% endif %}
-                </article>
-                {% endfor %}
-            </div>
-            {% endfor %}
-        </div>
-    </section>
-
-    <section class="portfolio-section portfolio-focus" id="focus">
-        <div class="portfolio-shell">
-            <div class="section-heading">
-                <p class="section-kicker">Focus</p>
-                <h2>项目关注点</h2>
-                <p>当前项目主要集中在实时系统、感知算法落地和系统级问题拆解三个方向。</p>
-            </div>
-
-            <div class="focus-grid">
-                {% for item in site.data.projects.focus %}
-                <article class="focus-card">
-                    <h3>{{ item.title }}</h3>
-                    <p>{{ item.description }}</p>
-                </article>
+                </a>
                 {% endfor %}
             </div>
         </div>
