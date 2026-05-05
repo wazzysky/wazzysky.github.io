@@ -4,7 +4,7 @@ layout: default
 {% assign project = site.data.projects.projects | where: "slug", page.project_slug | first %}
 
 <main class="project-page">
-    <section class="project-hero" style="--project-cover: linear-gradient(180deg, rgba(10, 18, 31, 0.22) 0%, rgba(10, 18, 31, 0.78) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
+    <section class="project-hero" style="--project-cover: linear-gradient(180deg, rgba(7, 15, 26, 0.05) 0%, rgba(7, 15, 26, 0.35) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
         <div class="portfolio-shell">
             <a class="back-link" href="{{ site.baseurl }}/projects/">返回项目列表</a>
             <div class="project-hero-grid">

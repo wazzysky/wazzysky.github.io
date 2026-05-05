@@ -7,31 +7,39 @@ permalink: /projects/
 ---
 
 <main class="portfolio-home">
-    <section class="project-index reveal" id="projects">
-        <div class="portfolio-shell">
-            <a class="back-link" href="{{ site.baseurl }}/">返回首页</a>
+    <div class="portfolio-shell">
+        <a class="back-link" href="{{ site.baseurl }}/">返回首页</a>
 
-            <div class="section-head">
-                <p class="section-kicker">Project Index</p>
-                <h2>点击卡片进入项目页</h2>
-            </div>
+        <section class="project-ring-section reveal">
+            <div class="project-ring">
+                <!-- Orbit decoration layers -->
+                <div class="ring-orbit ring-orbit-1"></div>
+                <div class="ring-orbit ring-orbit-2"></div>
 
-            <div class="project-card-grid">
+                <!-- Center hub -->
+                <div class="ring-hub">
+                    <p class="section-kicker">Project Index</p>
+                    <h2>点击卡片<br>进入项目页</h2>
+                    <span class="ring-hub-count">5 Projects</span>
+                </div>
+
+                <!-- Cards -->
                 {% for project in site.data.projects.projects %}
-                <a class="index-card reveal-child" href="{{ site.baseurl }}{{ project.url }}">
-                    <div class="index-card-media" style="background-image: linear-gradient(180deg, rgba(17, 32, 49, 0.12) 0%, rgba(17, 32, 49, 0.68) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
-                        <span class="index-card-no">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
-                        <span class="index-card-type">{{ project.type }}</span>
-                    </div>
-
-                    <div class="index-card-body">
-                        <h3>{{ project.title }}</h3>
-                        <p>{{ project.tagline }}</p>
-                        <span class="index-card-action">进入项目页</span>
+                <a class="ring-card reveal-child" href="{{ site.baseurl }}{{ project.url }}">
+                    <div class="ring-card-inner">
+                        <div class="ring-card-media" style="background-image: linear-gradient(180deg, rgba(12, 26, 43, 0.18) 0%, rgba(12, 26, 43, 0.62) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
+                            <span class="ring-card-no">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+                            <span class="ring-card-type">{{ project.type }}</span>
+                        </div>
+                        <div class="ring-card-body">
+                            <h3>{{ project.title }}</h3>
+                            <p>{{ project.tagline }}</p>
+                            <span class="index-card-action">进入项目页</span>
+                        </div>
                     </div>
                 </a>
                 {% endfor %}
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </main>
