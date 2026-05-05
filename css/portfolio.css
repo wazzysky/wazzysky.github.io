@@ -1,21 +1,4 @@
-/* ── Keyframes ─────────────────────────────── */
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes orbitSpin {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(360deg); }
-}
-@keyframes orbitSpinRev {
-  from { transform: translate(-50%, -50%) rotate(0deg); }
-  to   { transform: translate(-50%, -50%) rotate(-360deg); }
-}
-@keyframes hubPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(31, 111, 120, 0.2); }
-  50%      { box-shadow: 0 0 0 18px rgba(31, 111, 120, 0); }
-}
+/* ── Shell ─────────────────────────────────── */
 
 .portfolio-home {
   min-height: 100vh;
@@ -28,7 +11,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 28px;
+  margin-bottom: 10px;
   color: var(--teal-deep);
   font-size: 14px;
   font-weight: 600;
@@ -50,53 +33,36 @@
   transform: translateX(-4px);
 }
 
-/* ── Ring Section ──────────────────────────── */
+/* ── Scatter Container ─────────────────────── */
 
-.project-ring-section {
-  padding-bottom: 80px;
-}
-
-.project-ring {
+.scatter-container {
   position: relative;
   width: 100%;
-  min-height: 840px;
+  min-height: 680px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Orbit rings */
-.ring-orbit {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border-radius: 50%;
-  border: 1px dashed rgba(31, 111, 120, 0.12);
-  pointer-events: none;
-}
-.ring-orbit-1 {
-  width: 580px;
-  height: 580px;
-  animation: orbitSpin 60s linear infinite;
-}
-.ring-orbit-2 {
-  width: 760px;
-  height: 760px;
-  border-color: rgba(240, 160, 75, 0.08);
-  animation: orbitSpinRev 80s linear infinite;
-}
+/* ── Center Hub ────────────────────────────── */
 
-/* Center hub */
-.ring-hub {
+.scatter-hub {
   position: relative;
   z-index: 10;
   text-align: center;
-  max-width: 300px;
-  animation: hubPulse 3s ease-in-out infinite;
+  max-width: 320px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.6s ease 0.5s, transform 0.6s var(--ease-out-expo) 0.5s;
+  pointer-events: none;
+}
+.scatter-hub.is-visible {
+  opacity: 1;
+  transform: scale(1);
 }
 
-.ring-hub .section-kicker {
-  margin: 0 0 14px;
+.scatter-hub .section-kicker {
+  margin: 0 0 12px;
   text-transform: uppercase;
   letter-spacing: 0.24em;
   font-size: 11px;
@@ -104,82 +70,61 @@
   color: var(--teal-deep);
 }
 
-.ring-hub h2 {
+.scatter-hub h2 {
   margin: 0;
   font-size: clamp(26px, 3vw, 36px);
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--navy);
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
-.ring-hub-count {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 6px 18px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(31, 111, 120, 0.1), rgba(240, 160, 75, 0.1));
-  border: 1px solid rgba(31, 111, 120, 0.12);
-  color: var(--teal-deep);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-}
+/* ── Scatter Cards (positioning + animation) ─ */
 
-/* ── Ring Cards ────────────────────────────── */
+.scatter-card {
+  --x: 0px;
+  --y: 0px;
+  --rot: 0deg;
+  --delay: 0ms;
+  --card-width: 270px;
+  --card-scale: 1;
 
-.ring-card {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 270px;
+  width: var(--card-width);
   text-decoration: none;
   color: var(--ink);
   z-index: 5;
-  transition: z-index 0s;
+
+  /* Start at center, invisible */
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.3);
+  transition:
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--delay),
+    opacity 0.5s ease var(--delay);
+  pointer-events: none;
 }
 
-.ring-card:hover,
-.ring-card:focus {
+/* Active state — cards scatter to their positions */
+.scatter-container.is-active .scatter-card {
+  opacity: 1;
+  transform:
+    translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
+    scale(var(--card-scale))
+    rotate(var(--rot));
+  pointer-events: auto;
+}
+
+/* Hover — lift without affecting the scatter position */
+.scatter-card:hover,
+.scatter-card:focus {
   z-index: 20;
   color: var(--ink);
   text-decoration: none;
 }
 
-/* Position each card around the ring */
-.ring-card:nth-of-type(1) {
-  --angle: -90deg;
-}
-.ring-card:nth-of-type(2) {
-  --angle: -18deg;
-}
-.ring-card:nth-of-type(3) {
-  --angle: 54deg;
-}
-.ring-card:nth-of-type(4) {
-  --angle: 126deg;
-}
-.ring-card:nth-of-type(5) {
-  --angle: 198deg;
-}
-
-.ring-card {
-  transform: translate(-50%, -50%)
-             rotate(var(--angle))
-             translateY(-340px)
-             rotate(calc(-1 * var(--angle)));
-  transition: transform 0.45s var(--ease-out-expo);
-}
-
-.ring-card:hover {
-  transform: translate(-50%, -50%)
-             rotate(var(--angle))
-             translateY(-354px)
-             rotate(calc(-1 * var(--angle)));
-}
-
-/* Inner wrapper for visual styles */
-.ring-card-inner {
+.scatter-card-inner {
   overflow: hidden;
   border-radius: var(--radius);
   border: 1px solid var(--line);
@@ -188,40 +133,38 @@
   -webkit-backdrop-filter: blur(12px);
   box-shadow: var(--shadow-sm);
   transition:
-    box-shadow 0.4s var(--ease-out-expo),
-    border-color 0.4s ease,
-    transform 0.4s var(--ease-out-expo);
+    transform 0.4s var(--ease-out-expo),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
 }
-
-.ring-card:hover .ring-card-inner {
+.scatter-card:hover .scatter-card-inner {
+  transform: translateY(-8px) scale(1.04);
   box-shadow: var(--shadow-xl);
-  border-color: rgba(31, 111, 120, 0.32);
-  transform: scale(1.06);
+  border-color: rgba(31, 111, 120, 0.28);
 }
 
-/* ── Ring Card Media ───────────────────────── */
+/* ── Card Media ────────────────────────────── */
 
-.ring-card-media {
+.scatter-card-media {
   position: relative;
-  min-height: 160px;
-  padding: 18px;
+  min-height: 150px;
+  padding: 16px;
   background-size: cover;
   background-position: center;
   transition: transform 0.5s var(--ease-out-expo);
 }
-.ring-card:hover .ring-card-media {
-  transform: scale(1.05);
+.scatter-card:hover .scatter-card-media {
+  transform: scale(1.06);
 }
-
-.ring-card-media::after {
+.scatter-card-media::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(12, 26, 43, 0.06) 0%, rgba(12, 26, 43, 0.48) 100%);
+  background: linear-gradient(180deg, rgba(12, 26, 43, 0.04) 0%, rgba(12, 26, 43, 0.42) 100%);
 }
 
-.ring-card-no,
-.ring-card-type {
+.scatter-card-no,
+.scatter-card-type {
   position: relative;
   z-index: 1;
   display: inline-flex;
@@ -231,26 +174,26 @@
   font-weight: 700;
 }
 
-.ring-card-no {
-  min-width: 46px;
-  min-height: 46px;
+.scatter-card-no {
+  min-width: 44px;
+  min-height: 44px;
   background: rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: #ffffff;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 800;
   letter-spacing: -0.02em;
 }
 
-.ring-card-type {
+.scatter-card-type {
   position: absolute;
-  right: 16px;
-  bottom: 16px;
+  right: 14px;
+  bottom: 14px;
   z-index: 1;
-  min-height: 30px;
-  padding: 0 12px;
+  min-height: 28px;
+  padding: 0 10px;
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -261,13 +204,13 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
-/* ── Ring Card Body ────────────────────────── */
+/* ── Card Body ─────────────────────────────── */
 
-.ring-card-body {
-  padding: 18px 20px 22px;
+.scatter-card-body {
+  padding: 16px 18px 20px;
 }
 
-.ring-card-body h3 {
+.scatter-card-body h3 {
   margin: 0;
   font-size: 16px;
   font-weight: 700;
@@ -279,99 +222,84 @@
   overflow: hidden;
 }
 
-.ring-card-body p {
-  margin: 8px 0 0;
+.scatter-card-body p {
+  margin: 6px 0 0;
   color: var(--ink-soft);
   font-size: 13px;
-  line-height: 1.65;
+  line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* Action link */
-.index-card-action {
+.scatter-card-action {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 14px;
+  margin-top: 12px;
   color: var(--teal-deep);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.02em;
   transition: gap 0.3s ease, color 0.25s ease;
 }
-.index-card-action::after {
+.scatter-card-action::after {
   content: "→";
   transition: transform 0.3s ease;
 }
-.ring-card:hover .index-card-action {
+.scatter-card:hover .scatter-card-action {
   gap: 10px;
   color: var(--coral);
 }
-.ring-card:hover .index-card-action::after {
+.scatter-card:hover .scatter-card-action::after {
   transform: translateX(4px);
 }
 
 /* ── Responsive ────────────────────────────── */
 
-@media (max-width: 1100px) {
-  /* Smaller ring */
-  .ring-card {
-    transform: translate(-50%, -50%)
-               rotate(var(--angle))
-               translateY(-270px)
-               rotate(calc(-1 * var(--angle)));
-    width: 230px;
-  }
-  .ring-card:hover {
-    transform: translate(-50%, -50%)
-               rotate(var(--angle))
-               translateY(-280px)
-               rotate(calc(-1 * var(--angle)));
-  }
-  .ring-orbit-1 { width: 460px; height: 460px; }
-  .ring-orbit-2 { width: 600px; height: 600px; }
-  .ring-card-media { min-height: 130px; }
-}
-
 @media (max-width: 860px) {
-  /* Fallback: horizontal scroll list */
-  .project-ring {
+  .scatter-container {
     min-height: auto;
-    display: block;
-  }
-  .ring-orbit,
-  .ring-hub-count { display: none; }
-
-  .ring-hub {
-    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-bottom: 40px;
   }
 
-  .ring-card {
+  .scatter-hub {
+    position: relative;
+    opacity: 1;
+    transform: none;
+    margin-bottom: 10px;
+  }
+
+  .scatter-card {
     position: relative !important;
     left: auto !important;
     top: auto !important;
     width: 100% !important;
+    opacity: 1 !important;
     transform: none !important;
-    margin-bottom: 18px;
+    pointer-events: auto !important;
+    transition: none !important;
   }
-  .ring-card:hover {
-    transform: translateY(-6px) !important;
-  }
-  .ring-card-inner {
+
+  .scatter-card-inner {
     display: grid;
     grid-template-columns: 120px 1fr;
     align-items: stretch;
   }
-  .ring-card-media {
+  .scatter-card-media {
     min-height: 100%;
-    min-width: 120px;
   }
-  .ring-card-body {
+  .scatter-card-body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  .scatter-card:hover .scatter-card-inner {
+    transform: translateY(-4px);
   }
 }

@@ -10,36 +10,29 @@ permalink: /projects/
     <div class="portfolio-shell">
         <a class="back-link" href="{{ site.baseurl }}/">返回首页</a>
 
-        <section class="project-ring-section reveal">
-            <div class="project-ring">
-                <!-- Orbit decoration layers -->
-                <div class="ring-orbit ring-orbit-1"></div>
-                <div class="ring-orbit ring-orbit-2"></div>
-
-                <!-- Center hub -->
-                <div class="ring-hub">
-                    <p class="section-kicker">Project Index</p>
-                    <h2>点击卡片<br>进入项目页</h2>
-                    <span class="ring-hub-count">5 Projects</span>
-                </div>
-
-                <!-- Cards -->
-                {% for project in site.data.projects.projects %}
-                <a class="ring-card reveal-child" href="{{ site.baseurl }}{{ project.url }}">
-                    <div class="ring-card-inner">
-                        <div class="ring-card-media" style="background-image: linear-gradient(180deg, rgba(12, 26, 43, 0.18) 0%, rgba(12, 26, 43, 0.62) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
-                            <span class="ring-card-no">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
-                            <span class="ring-card-type">{{ project.type }}</span>
-                        </div>
-                        <div class="ring-card-body">
-                            <h3>{{ project.title }}</h3>
-                            <p>{{ project.tagline }}</p>
-                            <span class="index-card-action">进入项目页</span>
-                        </div>
-                    </div>
-                </a>
-                {% endfor %}
+        <div class="scatter-container" id="scatterContainer">
+            <!-- Center hub — fades in after scatter -->
+            <div class="scatter-hub">
+                <p class="section-kicker">Project Index</p>
+                <h2>点击卡片<br>进入项目页</h2>
             </div>
-        </section>
+
+            <!-- Cards — scatter outward from center -->
+            {% for project in site.data.projects.projects %}
+            <a class="scatter-card reveal-child" href="{{ site.baseurl }}{{ project.url }}">
+                <div class="scatter-card-inner">
+                    <div class="scatter-card-media" style="background-image: linear-gradient(180deg, rgba(12, 26, 43, 0.15) 0%, rgba(12, 26, 43, 0.55) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
+                        <span class="scatter-card-no">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+                        <span class="scatter-card-type">{{ project.type }}</span>
+                    </div>
+                    <div class="scatter-card-body">
+                        <h3>{{ project.title }}</h3>
+                        <p>{{ project.tagline }}</p>
+                        <span class="scatter-card-action">进入项目页</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
     </div>
 </main>
