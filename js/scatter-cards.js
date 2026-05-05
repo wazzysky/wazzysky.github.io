@@ -17,9 +17,9 @@
   var goldenAngle = Math.PI * (3 - Math.sqrt(5));
   var count = cards.length;
   var containerWidth = container.clientWidth || 1000;
-  var containerHeight = 720;
-  var maxRadiusX = containerWidth * 0.34;
-  var maxRadiusY = containerHeight * 0.32;
+  var containerHeight = 860;
+  var maxRadiusX = containerWidth * 0.44;
+  var maxRadiusY = containerHeight * 0.40;
 
   // Seed-based randomization so each visit looks different
   var seed = Date.now() % 10000;
@@ -45,11 +45,11 @@
   for (var i = 0; i < count; i++) {
     var idx = indices[i];
     var angle = i * goldenAngle;
-    var radiusFactor = Math.sqrt(i / Math.max(count - 1, 1));
-    var rx = (0.3 + seededRandom() * 0.7) * maxRadiusX * radiusFactor;
-    var ry = (0.3 + seededRandom() * 0.7) * maxRadiusY * radiusFactor;
-    var x = Math.cos(angle) * rx + (seededRandom() - 0.5) * 30;
-    var y = Math.sin(angle) * ry + (seededRandom() - 0.5) * 30;
+    var radiusFactor = 0.35 + 0.65 * Math.sqrt(i / Math.max(count - 1, 1));
+    var rx = (0.4 + seededRandom() * 0.6) * maxRadiusX * radiusFactor;
+    var ry = (0.4 + seededRandom() * 0.6) * maxRadiusY * radiusFactor;
+    var x = Math.cos(angle) * rx + (seededRandom() - 0.5) * 50;
+    var y = Math.sin(angle) * ry + (seededRandom() - 0.5) * 50;
     var rot = (seededRandom() - 0.5) * 10;
     var delay = i * 90;
 
@@ -76,8 +76,8 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       containerWidth = container.clientWidth || 1000;
-      maxRadiusX = containerWidth * 0.34;
-      maxRadiusY = containerHeight * 0.32;
+      maxRadiusX = containerWidth * 0.44;
+      maxRadiusY = containerHeight * 0.40;
       // Re-apply positions with new bounds
       for (var j = 0; j < count; j++) {
         var card = cards[j];
