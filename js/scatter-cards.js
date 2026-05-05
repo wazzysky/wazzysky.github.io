@@ -17,9 +17,9 @@
   var goldenAngle = Math.PI * (3 - Math.sqrt(5));
   var count = cards.length;
   var containerWidth = container.clientWidth || 1000;
-  var containerHeight = 860;
-  var maxRadiusX = containerWidth * 0.44;
-  var maxRadiusY = containerHeight * 0.40;
+  var containerHeight = 920;
+  var maxRadiusX = containerWidth * 0.46;
+  var maxRadiusY = containerHeight * 0.44;
 
   // Seed-based randomization so each visit looks different
   var seed = Date.now() % 10000;
@@ -38,18 +38,18 @@
     indices[j] = tmp;
   }
 
-  // Sizes for variety
-  var widths = [290, 250, 310, 270, 260];
-  var scales = [0.92, 1.08, 0.85, 1.0, 0.96];
+  // Sizes — smaller to allow wider spread without clipping
+  var widths = [250, 220, 260, 230, 240];
+  var scales = [0.88, 0.98, 0.82, 0.94, 0.9];
 
   for (var i = 0; i < count; i++) {
     var idx = indices[i];
     var angle = i * goldenAngle;
-    var radiusFactor = 0.35 + 0.65 * Math.sqrt(i / Math.max(count - 1, 1));
-    var rx = (0.4 + seededRandom() * 0.6) * maxRadiusX * radiusFactor;
-    var ry = (0.4 + seededRandom() * 0.6) * maxRadiusY * radiusFactor;
-    var x = Math.cos(angle) * rx + (seededRandom() - 0.5) * 50;
-    var y = Math.sin(angle) * ry + (seededRandom() - 0.5) * 50;
+    var radiusFactor = 0.65 + 0.35 * (i / Math.max(count - 1, 1));
+    var rx = (0.7 + seededRandom() * 0.3) * maxRadiusX * radiusFactor;
+    var ry = (0.7 + seededRandom() * 0.3) * maxRadiusY * radiusFactor;
+    var x = Math.cos(angle) * rx + (seededRandom() - 0.5) * 30;
+    var y = Math.sin(angle) * ry + (seededRandom() - 0.5) * 30;
     var rot = (seededRandom() - 0.5) * 10;
     var delay = i * 90;
 
@@ -76,8 +76,8 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       containerWidth = container.clientWidth || 1000;
-      maxRadiusX = containerWidth * 0.44;
-      maxRadiusY = containerHeight * 0.40;
+      maxRadiusX = containerWidth * 0.46;
+      maxRadiusY = containerHeight * 0.44;
       // Re-apply positions with new bounds
       for (var j = 0; j < count; j++) {
         var card = cards[j];
