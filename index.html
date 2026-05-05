@@ -2,61 +2,52 @@
 layout: default
 title: "WazzySky 的项目 List"
 description: "项目入口页"
-custom_css: /css/portfolio.css
+custom_css: /css/landing.css
 ---
 
-<main class="portfolio-home">
-    <section class="home-hero">
-        <div class="portfolio-shell">
-            <div class="hero-panel">
-                <p class="hero-eyebrow">{{ site.data.projects.intro.eyebrow }}</p>
-                <h1>{{ site.data.projects.intro.title }}</h1>
-                <p class="hero-summary">{{ site.data.projects.intro.summary }}</p>
+<main class="landing-page">
+    <!-- Animated bg blobs -->
+    <div class="landing-bg">
+        <div class="bg-blob bg-blob-1"></div>
+        <div class="bg-blob bg-blob-2"></div>
+        <div class="bg-blob bg-blob-3"></div>
+        <div class="bg-dots"></div>
+    </div>
 
-                <div class="hero-stats">
-                    {% for stat in site.data.projects.intro.stats %}
-                    <div class="hero-stat">
-                        <div class="hero-stat-value">{{ stat.value }}</div>
-                        <div class="hero-stat-label">{{ stat.label }}</div>
-                    </div>
-                    {% endfor %}
+    <div class="landing-shell">
+        <div class="hero-panel">
+            <p class="hero-eyebrow">{{ site.data.projects.intro.eyebrow }}</p>
+            <h1>{{ site.data.projects.intro.title }}</h1>
+            <p class="hero-summary">{{ site.data.projects.intro.summary }}</p>
+
+            <div class="hero-stats">
+                {% for stat in site.data.projects.intro.stats %}
+                <div class="hero-stat">
+                    <div class="hero-stat-value">{{ stat.value }}</div>
+                    <div class="hero-stat-label">{{ stat.label }}</div>
                 </div>
-
-                <div class="hero-stack">
-                    <div class="hero-stack-title">当前使用的技术栈</div>
-                    <div class="hero-stack-list">
-                        {% for item in site.data.projects.intro.tech_stack %}
-                        <span class="hero-stack-chip">{{ item }}</span>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="project-index reveal" id="projects">
-        <div class="portfolio-shell">
-            <div class="section-head">
-                <p class="section-kicker">Project Index</p>
-                <h2>点击卡片进入项目页</h2>
-            </div>
-
-            <div class="project-card-grid">
-                {% for project in site.data.projects.projects %}
-                <a class="index-card reveal-child" href="{{ site.baseurl }}{{ project.url }}">
-                    <div class="index-card-media" style="background-image: linear-gradient(180deg, rgba(17, 32, 49, 0.12) 0%, rgba(17, 32, 49, 0.68) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
-                        <span class="index-card-no">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
-                        <span class="index-card-type">{{ project.type }}</span>
-                    </div>
-
-                    <div class="index-card-body">
-                        <h3>{{ project.title }}</h3>
-                        <p>{{ project.tagline }}</p>
-                        <span class="index-card-action">进入项目页</span>
-                    </div>
-                </a>
                 {% endfor %}
             </div>
+
+            <div class="hero-stack">
+                <div class="hero-stack-title">当前使用的技术栈</div>
+                <div class="hero-stack-list">
+                    {% for item in site.data.projects.intro.tech_stack %}
+                    <span class="hero-stack-chip">{{ item }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a class="cta-button" href="{{ site.baseurl }}/projects/">
+                    进入项目列表
+                    <span class="cta-arrow">→</span>
+                </a>
+            </div>
         </div>
-    </section>
+
+        <div class="landing-footer">
+            <a class="landing-gh" href="https://github.com/{{ site.github_username }}" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+    </div>
 </main>
