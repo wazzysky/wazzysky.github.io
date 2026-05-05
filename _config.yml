@@ -23,4 +23,4 @@ highlighter: rouge
 kramdown:
   input: GFM
 
-chrome-tab-theme-color: "#112031"
+chrome-tab-theme-color: "#0c1a2b"

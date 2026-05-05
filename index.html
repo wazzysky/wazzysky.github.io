@@ -34,7 +34,7 @@ custom_css: /css/portfolio.css
         </div>
     </section>
 
-    <section class="project-index" id="projects">
+    <section class="project-index reveal" id="projects">
         <div class="portfolio-shell">
             <div class="section-head">
                 <p class="section-kicker">Project Index</p>
@@ -43,7 +43,7 @@ custom_css: /css/portfolio.css
 
             <div class="project-card-grid">
                 {% for project in site.data.projects.projects %}
-                <a class="index-card" href="{{ site.baseurl }}{{ project.url }}">
+                <a class="index-card reveal-child" href="{{ site.baseurl }}{{ project.url }}">
                     <div class="index-card-media" style="background-image: linear-gradient(180deg, rgba(17, 32, 49, 0.12) 0%, rgba(17, 32, 49, 0.68) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
                         <span class="index-card-no">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
                         <span class="index-card-type">{{ project.type }}</span>

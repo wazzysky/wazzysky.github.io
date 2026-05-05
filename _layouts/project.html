@@ -40,16 +40,16 @@ layout: default
         </div>
     </section>
 
-    <section class="project-content">
+    <section class="project-content reveal">
         <div class="portfolio-shell">
             <div class="content-grid">
                 <aside class="project-sidebar">
-                    <div class="sidebar-card">
+                    <div class="sidebar-card reveal-child">
                         <h2>项目摘要</h2>
                         <p>{{ project.brief }}</p>
                     </div>
 
-                    <div class="sidebar-card">
+                    <div class="sidebar-card reveal-child">
                         <h2>技术栈</h2>
                         <ul class="stack-list">
                             {% for item in project.stack %}
@@ -58,7 +58,7 @@ layout: default
                         </ul>
                     </div>
 
-                    <div class="sidebar-card">
+                    <div class="sidebar-card reveal-child">
                         <h2>关键指标</h2>
                         <div class="metric-list">
                             {% for item in project.metrics %}
@@ -71,7 +71,7 @@ layout: default
                     </div>
 
                     {% if project.resources %}
-                    <div class="sidebar-card">
+                    <div class="sidebar-card reveal-child">
                         <h2>相关材料</h2>
                         <ul class="resource-list">
                             {% for item in project.resources %}
@@ -88,7 +88,7 @@ layout: default
 
                 <div class="project-detail">
                     {% for section in project.sections %}
-                    <section class="detail-section">
+                    <section class="detail-section reveal-child">
                         <div class="detail-section-head">
                             <p class="detail-section-kicker">Section {{ forloop.index }}</p>
                             <h2>{{ section.title }}</h2>
