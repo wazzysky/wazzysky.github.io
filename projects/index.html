@@ -6,30 +6,27 @@ custom_css: /css/portfolio.css
 permalink: /projects/
 ---
 
-<main class="portfolio-home">
+<main class="portfolio-home portfolio-directory">
     <div class="portfolio-shell">
         <a class="back-link" href="{{ site.baseurl }}/">返回首页</a>
 
-        <div class="scatter-container" id="scatterContainer">
-            <!-- Center hub — fades in after scatter -->
-            <div class="scatter-hub">
-                <p class="section-kicker">Project Index</p>
-                <h2>点击卡片<br>进入项目页</h2>
-            </div>
+        <div class="directory-header">
+            <p class="section-kicker">Project Index</p>
+            <h2>项目目录</h2>
+            <p>按当前网站结构浏览全部项目，点击卡片进入对应项目页。</p>
+        </div>
 
-            <!-- Cards — scatter outward from center -->
+        <div class="directory-grid">
             {% for project in site.data.projects.projects %}
-            <a class="scatter-card reveal-child" href="{{ site.baseurl }}{{ project.url }}">
-                <div class="scatter-card-inner">
-                    <div class="scatter-card-media" style="background-image: linear-gradient(180deg, rgba(12, 26, 43, 0.15) 0%, rgba(12, 26, 43, 0.55) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
-                        <span class="scatter-card-no">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
-                        <span class="scatter-card-type">{{ project.type }}</span>
-                    </div>
-                    <div class="scatter-card-body">
-                        <h3>{{ project.title }}</h3>
-                        <p>{{ project.tagline }}</p>
-                        <span class="scatter-card-action">进入项目页</span>
-                    </div>
+            <a class="directory-card" href="{{ site.baseurl }}{{ project.url }}">
+                <div class="directory-card-media" style="background-image: linear-gradient(180deg, rgba(12, 26, 43, 0.12) 0%, rgba(12, 26, 43, 0.55) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
+                    <span class="directory-card-no">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+                    <span class="directory-card-type">{{ project.type }}</span>
+                </div>
+                <div class="directory-card-body">
+                    <h3>{{ project.title }}</h3>
+                    <p>{{ project.tagline }}</p>
+                    <span class="directory-card-action">进入项目页</span>
                 </div>
             </a>
             {% endfor %}
