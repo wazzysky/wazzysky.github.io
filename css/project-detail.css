@@ -172,10 +172,9 @@
 }
 
 .switcher-scroll {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 12px;
-  overflow-x: auto;
-  padding-bottom: 4px;
 }
 
 .switcher-scroll::-webkit-scrollbar {
@@ -194,7 +193,7 @@
   grid-template-columns: auto 1fr;
   gap: 12px;
   align-items: center;
-  min-width: 290px;
+  min-width: 0;
   padding: 14px 18px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
@@ -609,8 +608,16 @@
     padding: 20px;
     border-radius: var(--radius);
   }
+  .switcher-scroll {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scroll-snap-type: x proximity;
+  }
+
   .switcher-link {
     min-width: 240px;
+    scroll-snap-align: start;
   }
   .project-hero-copy h1 {
     font-size: clamp(28px, 8vw, 42px);
