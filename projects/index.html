@@ -16,17 +16,19 @@ permalink: /projects/
             <p>按当前网站结构浏览全部项目，点击卡片进入对应项目页。</p>
         </div>
 
-        <div class="directory-grid">
+        <div class="directory-list">
             {% for project in site.data.projects.projects %}
-            <a class="directory-card" href="{{ site.baseurl }}{{ project.url }}">
-                <div class="directory-card-media" style="background-image: linear-gradient(180deg, rgba(12, 26, 43, 0.12) 0%, rgba(12, 26, 43, 0.55) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
-                    <span class="directory-card-no">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
-                    <span class="directory-card-type">{{ project.type }}</span>
+            <a class="directory-row" href="{{ site.baseurl }}{{ project.url }}">
+                <div class="directory-row-media-wrap">
+                    <div class="directory-row-media" style="background-image: linear-gradient(180deg, rgba(12, 26, 43, 0.08) 0%, rgba(12, 26, 43, 0.35) 100%), url('{{ site.baseurl }}{{ project.cover }}');">
+                        <span class="directory-row-no">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+                        <span class="directory-row-type">{{ project.type }}</span>
+                    </div>
                 </div>
-                <div class="directory-card-body">
+                <div class="directory-row-body">
                     <h3>{{ project.title }}</h3>
                     <p>{{ project.tagline }}</p>
-                    <span class="directory-card-action">进入项目页</span>
+                    <span class="directory-row-action">进入项目页</span>
                 </div>
             </a>
             {% endfor %}
