@@ -202,11 +202,37 @@ projects:
     - 搭建训练、测试与可视化脚本，支持 checkpoint 管理、训练曲线、ROC、混淆矩阵、协议级与逐轮 t-SNE 可视化，以及论文表格自动生成。
     - 编写 safe_sort、generate_report_assets、generate_epoch_tsne_series、generate_paper_assets
       等工具脚本，提升实验可追踪性与材料产出效率。
+    media:
+    - type: image
+      src: "/img/srtp-dataset-table.png"
+      alt: 人脸反欺骗实验数据集统计表
+      caption: 四个公开数据集的样本规模与攻击类型统计。
+    - type: image
+      src: "/img/srtp-sample-predictions.png"
+      alt: 人脸反欺骗样本预测可视化
+      caption: 测试阶段样本预测结果，可直观看到 live/spoof 判别输出。
   - title: 难点与结果
     bullets:
     - 在多轮实验中定位并修正预训练缺失、数据集标签规则偏差、类别比例失衡和增强策略不合理等问题。
     - 通过接入预训练权重、类别比例控制和增强策略优化，在 ICM_to_O 协议下将结果提升至 AUC 97.13%、HTER 8.40%。
     - 最终形成可直接支撑论文撰写、结项答辩和个人网站展示的完整实验材料。
+    media:
+    - type: image
+      src: "/img/srtp-tsne-detail.png"
+      alt: 人脸反欺骗 t-SNE 特征分布
+      caption: ICM_to_O 协议下的 t-SNE 特征分布，展示 live/spoof 在训练域与测试域中的聚类结构。
+    - type: image
+      src: "/img/srtp-roc-curve.png"
+      alt: 人脸反欺骗 ROC 曲线
+      caption: ICM_to_O 协议下 ROC 曲线，AUC 达到 97.13%。
+    - type: image
+      src: "/img/srtp-confusion-matrix.png"
+      alt: 人脸反欺骗混淆矩阵
+      caption: ICM_to_O 协议下混淆矩阵，用于观察 live/spoof 预测分布。
+    - type: image
+      src: "/img/srtp-comparison-table.png"
+      alt: 人脸反欺骗方法对比表
+      caption: 与 CNN Baseline、ResNet、ViT 等方法的指标对比，当前方案取得更优 HTER 与 AUC。
 - slug: ssl-local-vision
   url: "/projects/ssl-local-vision/"
   type: 比赛项目
